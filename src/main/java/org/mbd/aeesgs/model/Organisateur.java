@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Organisateur extends BaseEntity {
-    @Column(name = "libelle", nullable = false, length = 100)
+    @Column(name = "libelle", nullable = false, length = 100, unique = true)
     private String libelle;
     @OneToMany(mappedBy = "organisateur", cascade = CascadeType.ALL)
     @JsonIgnore

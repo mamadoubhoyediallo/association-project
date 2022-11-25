@@ -14,7 +14,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +51,7 @@ public class FormationServiceImpl implements IFormationService {
         formation.setLibelle(formationDto.getLibelle());
         formation.setDescription(formationDto.getDescription());
         formation.setLieu(formationDto.getLieu());
-        formation.setPhoto(imgname);
+        //formation.setPhoto(imgname);
         formation.setDate(formationDto.getDate());
         formation.setPrix(formationDto.getPrix());
         formation.setOrganisateur(organisateur);
@@ -78,6 +80,7 @@ public class FormationServiceImpl implements IFormationService {
         formations.setDescription(formationDto.getDescription());
         formations.setLieu(formationDto.getLieu());
         formations.setDate(formationDto.getDate());
+        //formations.setPhoto(ima);
         formations.setPrix(formationDto.getPrix());
         formations.setOrganisateur(organisateur);
         formations.setFormationCategory(formationCategory);
@@ -100,10 +103,10 @@ public class FormationServiceImpl implements IFormationService {
     }
 
     @Override
-    public byte[] downloadImage(String fileName){
-        Optional<Formation> dbImageData = formationRepo.findByPhoto(fileName);
-        byte[] images=FileUploadUtil.decompressImage(dbImageData.get().getPhoto());
-        return images;
+    public InputStream downloadImage(String path, String fileName) throws Exception{
+        String fullPath = path+File.separator+fileName;
+        InputStream is = new FileInputStream(fullPath);
+        return is;
     }
 
 //    @Override
