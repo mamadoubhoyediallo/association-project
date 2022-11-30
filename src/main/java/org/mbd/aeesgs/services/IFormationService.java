@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.List;
 
 public interface IFormationService extends IBase<Formation> {
-    public Formation save(FormationDto formationDto, List<MultipartFile> file);
+    public Formation save(FormationDto formationDto, List<MultipartFile> files);
     public Formation update(FormationDto formationDto, Long id);
     public InputStream downloadImage(String path, String fileName) throws Exception;
     //public File[] affichherImage();

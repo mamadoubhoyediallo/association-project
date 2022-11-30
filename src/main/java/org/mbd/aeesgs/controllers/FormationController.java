@@ -40,32 +40,10 @@ public class FormationController {
     }
 
     @PostMapping(value = EndPointAeesgs.SAVE)
-     public FormationResponseDto save(@ModelAttribute FormationDto formationDto, @RequestParam("photo") List<MultipartFile> multipartFile){
-
+     public Formation save(@ModelAttribute FormationDto formationDto, @RequestParam("photo") List<MultipartFile> multipartFile){
         Formation formation = formationService.save(formationDto, multipartFile);
-        String downloadURl = "";
-        downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("formation/dept_photos/")
-                .path(formation.getPhoto())
-                .toUriString();
-        System.out.println(downloadURl);
-        return new FormationResponseDto(formation.getPhoto(),
-                downloadURl);
-
+        return formation;
      }
-
-//     public Set<ImageUpload> uploads(MultipartFile[] files) throws IOException {
-//         Set<ImageUpload> imageUploads = new HashSet<>();
-//         for (MultipartFile file: files){
-//             ImageUpload upload = new ImageUpload(
-//                     file.getOriginalFilename(),
-//                     file.getContentType(),
-//                     file.getBytes()
-//             );
-//             imageUploads.add(imageUploads);
-//         }
-//
-//     }
 
      @GetMapping(value = EndPointAeesgs.FIND_ALL)
      public ResponseEntity<?> findAll(){
@@ -84,31 +62,6 @@ public class FormationController {
      public void delete(@PathVariable("id") Long id){
         formationService.delete(id);
      }
-
-//    @GetMapping(value = "getImage/{id}")
-//    public ResponseEntity<?> download(@PathVariable("id") String photo){
-//        return new ResponseEntity<>(formationService.downloadImage(photo), HttpStatus.OK);
-//    }
-//    @GetMapping(value = "affImage")
-//    public ResponseEntity<?> afficheImage(){
-//        return new ResponseEntity<>(formationService.affichherImage(), HttpStatus.OK);
-//    }
-
-
-//    @GetMapping("/dept_photos/{image}")
-//    public ResponseEntity<InputStreamSource> downloadFile(@PathVariable String image) throws Exception {
-//        Optional<Formation> formation = null;
-//        //byte[] bytes = new byte[10];
-//        formation = formationRepo.findByPhoto(image);
-//        File file = new File(formation.get().getPhoto());
-//        InputStreamSource streamSource = new InputStreamResource(new FileInputStream(file));
-//        return  ResponseEntity.ok()
-//                .contentType(MediaType.ALL)
-//                .header(HttpHeaders.CONTENT_DISPOSITION,
-//                        "formation; filename=\"" + formation.get().getPhoto()
-//                                + "\"")
-//                .body(streamSource);
-//    }
     @GetMapping(value = "/dept_photos/{image}", produces = MediaType.IMAGE_PNG_VALUE)
         public void downloadFile(@PathVariable String image, HttpServletResponse response) throws Exception {
         response.setContentType(MediaType.IMAGE_PNG_VALUE);

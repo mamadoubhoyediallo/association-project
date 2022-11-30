@@ -1,13 +1,11 @@
 package org.mbd.aeesgs.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,7 +21,14 @@ public class Formation extends BaseEntity {
     String lieu;
     @Temporal(TemporalType.TIMESTAMP)
     Date date;
-    String photo;
+    @ManyToMany
+            @JoinTable(name = "formation_images", joinColumns = {
+                    @JoinColumn(name = "formation_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "image_id")
+            })
+    Set<ImageUpload> photo;
     @ManyToOne
     @JoinColumn(name = "organisateur_id", nullable = false)
     Organisateur organisateur;

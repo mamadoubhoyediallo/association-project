@@ -14,6 +14,7 @@ public class FormationDto {
     private String description;
     private String lieu;
     private Date date;
+    //private String photo;
     private Long id_organisateur;
     private Long id_formationCategory;
 //    private Set<ImageUpload> imageUploads;
