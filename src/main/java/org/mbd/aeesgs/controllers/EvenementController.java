@@ -1,9 +1,10 @@
 package org.mbd.aeesgs.controllers;
 
+import org.mbd.aeesgs.dto.EvenementDto;
 import org.mbd.aeesgs.dto.FormationDto;
+import org.mbd.aeesgs.model.Evenement;
 import org.mbd.aeesgs.model.Formation;
-import org.mbd.aeesgs.repositories.FormationRepo;
-import org.mbd.aeesgs.services.IFormationService;
+import org.mbd.aeesgs.services.IEvenementService;
 import org.mbd.aeesgs.utils.EndPointAeesgs;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -12,58 +13,58 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping("formation")
-public class FormationController {
+@RequestMapping("evenement")
+public class EvenementController {
 
-    private final IFormationService formationService;
-    private final FormationRepo formationRepo;
-    @Value("${project.image}")
+    private final IEvenementService evenementService;
+
+    @Value("${project.images}")
     private String path;
 
-    public FormationController(IFormationService formationService, FormationRepo formationRepo) {
-        this.formationService = formationService;
-        this.formationRepo = formationRepo;
+    public EvenementController(IEvenementService evenementService) {
+        this.evenementService = evenementService;
     }
 
+
     @PostMapping(value = EndPointAeesgs.SAVE)
-     public Formation save(
-             @ModelAttribute FormationDto formationDto,
+     public Evenement save(
+             @ModelAttribute EvenementDto evenementDto,
              @RequestParam("photo") List<MultipartFile> multipartFile
     ){
-        Formation formation = formationService.save(formationDto, multipartFile);
-        return formation;
+        return evenementService.save(evenementDto, multipartFile);
      }
 
      @GetMapping(value = EndPointAeesgs.FIND_ALL)
      public ResponseEntity<?> findAll(){
-         List<Formation> formationList = formationService.findAll();
-         return new ResponseEntity<>(formationList, HttpStatus.OK);
+         List<Evenement> evenementList = evenementService.findAll();
+         return new ResponseEntity<>(evenementList, HttpStatus.OK);
      }
      @PutMapping(value = EndPointAeesgs.UPDATE)
-     public Formation update(
+     public Evenement update(
              @PathVariable("id") Long id,
-             @ModelAttribute FormationDto formationDto,
+             @ModelAttribute EvenementDto evenementDto,
              @RequestParam("photo") List<MultipartFile> multipartFile
      ){
-        return formationService.update(formationDto, id, multipartFile);
+        return evenementService.update(evenementDto, id, multipartFile);
      }
      @GetMapping(value = EndPointAeesgs.FIND_BY_ID)
-     public Formation formation(@PathVariable("id") Long id){
-        return formationService.findById(id);
+     public Evenement evenement(@PathVariable("id") Long id){
+        return evenementService.findById(id);
      }
      @DeleteMapping(value = EndPointAeesgs.DELETE)
      public void delete(@PathVariable("id") Long id){
-        formationService.delete(id);
+        evenementService.delete(id);
      }
-    @GetMapping(value = "/dept_photos/{image}", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/evmnt_photos/{image}", produces = MediaType.IMAGE_PNG_VALUE)
         public void downloadFile(@PathVariable String image, HttpServletResponse response) throws Exception {
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
-        InputStream ressource = formationService.downloadImage(path, image);
+        InputStream ressource = evenementService.downloadImage(path, image);
         StreamUtils.copy(ressource, response.getOutputStream());
     }
 }

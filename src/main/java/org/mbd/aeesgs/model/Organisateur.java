@@ -16,4 +16,7 @@ public class Organisateur extends BaseEntity {
     @OneToMany(mappedBy = "organisateur", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Formation> formations = new ArrayList<>();
+    @OneToMany(mappedBy = "organisateur", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Evenement> evenements = new ArrayList<>();
 }

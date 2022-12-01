@@ -36,10 +36,9 @@ public class OrganisateurServiceImpl implements IOrganisateurService {
 
     @Override
     public Organisateur findById(Long id) {
-        Organisateur organisateur = organisateurRepo.findById(id).
+        return organisateurRepo.findById(id).
                 orElseThrow(()-> new EntityNotFoundException(messageSource.getMessage("organisateur.notfound", new Object[]{id},
                         Locale.getDefault())));
-        return organisateur;
     }
     @Override
     public Organisateur findByLibelle(String libelle) {
