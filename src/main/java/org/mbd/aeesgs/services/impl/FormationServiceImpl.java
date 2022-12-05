@@ -1,5 +1,6 @@
 package org.mbd.aeesgs.services.impl;
 
+import com.google.common.hash.Hashing;
 import org.mbd.aeesgs.dto.FormationDto;
 import org.mbd.aeesgs.exception.EntityNotFoundException;
 import org.mbd.aeesgs.model.Formation;
@@ -15,7 +16,6 @@ import org.mbd.aeesgs.utils.FileUploadUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
@@ -46,6 +47,10 @@ public class FormationServiceImpl implements IFormationService {
         Set<ImageUpload> imageUploads = new HashSet<>();
         files.forEach(file -> {
             String fileName = file.getOriginalFilename();
+            String sha256hex = Hashing.sha256()
+                    .hashString(fileName, StandardCharsets.UTF_8)
+                    .toString();
+            System.out.println("FileName Hashing >>> " + sha256hex);
             downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("formation/dept_photos/")
                     .path(fileName)

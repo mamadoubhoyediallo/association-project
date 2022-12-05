@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Properties>
+        <Property name="basePath">/Users/mamadoubhoyediallo/Documents/Master1-2021-2022/spring_boot/logss</Property>
+    </Properties>
+    <Appenders>
+        <Console  name= "ConsoleAppender"  target= "SYSTEM_OUT"  follow= "true" >
+            <PatternLayout pattern="%d [%t] %-5level %logger{36} - %msg%n%throwable"/>
+        </Console >
+        <RollingFile name="fileLogger" fileName="${basePath}/lvgBackend.log" filePattern="${basePath}/app-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <!-- Max 10 files will be created everyday -->
+            <DefaultRolloverStrategy max="10">
+                <Delete basePath="${basePathr}" maxDepth="10">
+                    <!-- Delete all files older than 30 days -->
+                    <IfLastModified age="30d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="sn.finapps.pragxis" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+        <Root level="info" additivity="false">
+            <appenderRef ref="ConsoleAppender" />
+            <appenderRef ref="fileLogger" />
+        </Root>
+    </Loggers>
+</Configuration>
