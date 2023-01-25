@@ -1,9 +1,9 @@
 package org.mbd.aeesgs.services;
 
 
-import org.mbd.aeesgs.model.EvenementCategory;
+import org.mbd.aeesgs.dto.EvenementCategoryDto;
 
-public interface IEvenementCategoryService extends IBase<EvenementCategory> {
-    public EvenementCategory save(EvenementCategory evenementCategory);
-    public EvenementCategory update(EvenementCategory evenementCategory, Long id);
+public interface IEvenementCategoryService extends IBase<EvenementCategoryDto> {
+    public EvenementCategoryDto save(EvenementCategoryDto evenementCategoryDto);
+    public EvenementCategoryDto update(EvenementCategoryDto evenementCategoryDto, Long id);
 }

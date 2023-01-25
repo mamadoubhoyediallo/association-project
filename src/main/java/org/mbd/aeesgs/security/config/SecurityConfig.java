@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
+		http.cors().and().csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //		http.formLogin();
 		//http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ADMIN");
@@ -67,6 +67,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new JwtAuthorizatrionFilter(), UsernamePasswordAuthenticationFilter.class);
 //		http.authorizeRequests().antMatchers("/acceuil").hasAnyAuthority("ADMIN");
 //		http.authorizeRequests().antMatchers("/menu").hasAnyAuthority("USER", "ADMIN");
+	}
+
+	// Used by spring security if CORS is enabled.
+	@Bean
+	public CorsFilter corsFilter() {
+
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.setAllowedOriginPatterns(Collections.singletonList("*"));
+		config.setAllowedHeaders(
+				Arrays.asList("Origin", "Content-Type", "Accept", "responseType", "Authorization"));
+		config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
+		source.registerCorsConfiguration("/**", config);
+		return new CorsFilter(source);
 	}
 	
 	@Bean

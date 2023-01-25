@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
 	private AuthenticationManager authenticationManager;
-	private static final Logger logger = LogManager.getLogger(JwtAuthenticationFilter.class);
+	//private static final Logger logger = LogManager.getLogger(JwtAuthenticationFilter.class);
 	
 	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
 		super();
@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		logger.info("Attempt Authentication");
+		//logger.info("Attempt Authentication");
 		/*String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		logger.info("username -> "+username);
@@ -44,8 +44,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		AppUser appUser = null;
 		try {
 			appUser = new ObjectMapper().readValue(request.getInputStream(), AppUser.class);
-			logger.info("username -> "+appUser.getUsername());
-			logger.info("password -> "+appUser.getPassword());
+			//logger.info("username -> "+appUser.getUsername());
+			//logger.info("password -> "+appUser.getPassword());
 		}catch (Exception e){
 			throw new RuntimeException(e);
 		}
@@ -55,13 +55,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		logger.info("Success Authentication");
+		//logger.info("Success Authentication");
 		User user = (User) authResult.getPrincipal();
 		Algorithm algorithm1 = Algorithm.HMAC256("secret9876");
 		
 		String jwtAccessToken = JWT.create()
 				.withSubject(user.getUsername())
-				.withExpiresAt(new Date(System.currentTimeMillis()+5*60*1000))
+				.withExpiresAt(new Date(System.currentTimeMillis()+60*60*1000))
 				.withIssuer(request.getRequestURI().toString())
 				.withClaim("roles", user.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList()))
 				.sign(algorithm1);

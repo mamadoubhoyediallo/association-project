@@ -23,7 +23,7 @@ import java.util.Collection;
 public class JwtAuthorizatrionFilter extends OncePerRequestFilter {
 
 
-    private static final Logger logger = LogManager.getLogger(org.mbd.aeesgs.security.filters.JwtAuthenticationFilter.class);
+    //private static final Logger logger = LogManager.getLogger(org.mbd.aeesgs.security.filters.JwtAuthenticationFilter.class);
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -60,7 +60,7 @@ public class JwtAuthorizatrionFilter extends OncePerRequestFilter {
             }catch (Exception ex) {
                 response.setHeader("error-message", ex.getMessage());
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                logger.info("Access Denied 403 Forbidden");
+                //logger.info("Access Denied 403 Forbidden");
             }
         } else {
             filterChain.doFilter(request, response);

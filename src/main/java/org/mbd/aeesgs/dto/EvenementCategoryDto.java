@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrganisateurDto extends BaseDto{
+public class EvenementCategoryDto extends BaseDto{
     @NotNull(message = "libelle is required")
     private String libelle;
 }

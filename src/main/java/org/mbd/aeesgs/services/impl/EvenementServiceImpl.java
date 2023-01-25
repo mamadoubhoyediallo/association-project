@@ -43,92 +43,94 @@ public class EvenementServiceImpl implements IEvenementService {
     }
     @Override
     public Evenement save(EvenementDto evenementDto, List<MultipartFile> files) {
-        Set<ImageUpload> imageUploads = new HashSet<>();
-        files.forEach(file -> {
-            String fileName = file.getOriginalFilename();
-            downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("formation/dept_photos/")
-                    .path(fileName)
-                    .toUriString();
-            try {
-                ImageUpload image = new ImageUpload(
-                        downloadURl,
-                        file.getContentType()
-                );
-                imageUploadRepo.save(image);
-                imageUploads.add(image);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        Organisateur organisateur = organisateurService.findById(evenementDto.getId_organisateur());
-        EvenementCategory evenementCategory = evenementCategoryService.findById(evenementDto.getId_formationCategory());
-        Evenement evenement = new Evenement();
-        evenement.setLibelle(evenementDto.getLibelle());
-        evenement.setDescription(evenementDto.getDescription());
-        evenement.setLieu(evenementDto.getLieu());
-        evenement.setDate(evenementDto.getDate());
-        evenement.setOrganisateur(organisateur);
-        evenement.setEvenementCategory(evenementCategory);
-        evenement.setPhoto(imageUploads);
-        Evenement evenement1 = evenementRepo.save(evenement);
-        String uploadDir = "evnnmt_photos/";
-        files.forEach(file -> {
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            try {
-                FileUploadUtil.saveFile(uploadDir, fileName, file);
-                System.out.println(uploadDir + fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        return evenement1;
+//        Set<ImageUpload> imageUploads = new HashSet<>();
+//        files.forEach(file -> {
+//            String fileName = file.getOriginalFilename();
+//            downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                    .path("formation/dept_photos/")
+//                    .path(fileName)
+//                    .toUriString();
+//            try {
+//                ImageUpload image = new ImageUpload(
+//                        downloadURl,
+//                        file.getContentType()
+//                );
+//                imageUploadRepo.save(image);
+//                imageUploads.add(image);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        Organisateur organisateur = organisateurService.findById(evenementDto.getId_organisateur());
+//        EvenementCategory evenementCategory = evenementCategoryService.findById(evenementDto.getId_formationCategory());
+//        Evenement evenement = new Evenement();
+//        evenement.setLibelle(evenementDto.getLibelle());
+//        evenement.setDescription(evenementDto.getDescription());
+//        evenement.setLieu(evenementDto.getLieu());
+//        evenement.setDate(evenementDto.getDate());
+//        evenement.setOrganisateur(organisateur);
+//        evenement.setEvenementCategory(evenementCategory);
+//        evenement.setPhoto(imageUploads);
+//        Evenement evenement1 = evenementRepo.save(evenement);
+//        String uploadDir = "evnnmt_photos/";
+//        files.forEach(file -> {
+//            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//            try {
+//                FileUploadUtil.saveFile(uploadDir, fileName, file);
+//                System.out.println(uploadDir + fileName);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        return evenement1;
+        return null;
     }
 
     @Override
     public Evenement update(EvenementDto evenementDto, Long id, List<MultipartFile> files) {
-        Evenement evenements = evenementRepo.findById(id).orElseThrow(
-                ()-> new EntityNotFoundException(messageSource.getMessage("formation.notfound", new Object[]{id},
-                        Locale.getDefault()))
-        );
-        Set<ImageUpload> imageUploads = new HashSet<>();
-        files.forEach(file -> {
-            String fileName = file.getOriginalFilename();
-            downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("evenement/dept_photos/")
-                    .path(fileName)
-                    .toUriString();
-            try {
-                ImageUpload image = new ImageUpload(
-                        downloadURl,
-                        file.getContentType()
-                );
-                imageUploadRepo.save(image);
-                imageUploads.add(image);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        Organisateur organisateur = organisateurService.findById(evenementDto.getId_organisateur());
-        EvenementCategory evenementCategory = evenementCategoryService.findById(evenementDto.getId_formationCategory());
-        evenements.setLibelle(evenementDto.getLibelle());
-        evenements.setDescription(evenementDto.getDescription());
-        evenements.setLieu(evenementDto.getLieu());
-        evenements.setDate(evenementDto.getDate());
-        evenements.setOrganisateur(organisateur);
-        evenements.setEvenementCategory(evenementCategory);
-        evenements.setPhoto(imageUploads);
-        String uploadDir = "evemnt_photos/";
-        files.forEach(file -> {
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            try {
-                FileUploadUtil.saveFile(uploadDir, fileName, file);
-                System.out.println(uploadDir + fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        return evenementRepo.save(evenements);
+//        Evenement evenements = evenementRepo.findById(id).orElseThrow(
+//                ()-> new EntityNotFoundException(messageSource.getMessage("formation.notfound", new Object[]{id},
+//                        Locale.getDefault()))
+//        );
+//        Set<ImageUpload> imageUploads = new HashSet<>();
+//        files.forEach(file -> {
+//            String fileName = file.getOriginalFilename();
+//            downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                    .path("evenement/dept_photos/")
+//                    .path(fileName)
+//                    .toUriString();
+//            try {
+//                ImageUpload image = new ImageUpload(
+//                        downloadURl,
+//                        file.getContentType()
+//                );
+//                imageUploadRepo.save(image);
+//                imageUploads.add(image);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        Organisateur organisateur = organisateurService.findById(evenementDto.getId_organisateur());
+//        EvenementCategory evenementCategory = evenementCategoryService.findById(evenementDto.getId_formationCategory());
+//        evenements.setLibelle(evenementDto.getLibelle());
+//        evenements.setDescription(evenementDto.getDescription());
+//        evenements.setLieu(evenementDto.getLieu());
+//        evenements.setDate(evenementDto.getDate());
+//        evenements.setOrganisateur(organisateur);
+//        evenements.setEvenementCategory(evenementCategory);
+//        evenements.setPhoto(imageUploads);
+//        String uploadDir = "evemnt_photos/";
+//        files.forEach(file -> {
+//            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//            try {
+//                FileUploadUtil.saveFile(uploadDir, fileName, file);
+//                System.out.println(uploadDir + fileName);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        return evenementRepo.save(evenements);
+        return null;
     }
 
     @Override

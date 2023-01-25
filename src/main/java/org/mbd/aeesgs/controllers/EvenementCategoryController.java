@@ -1,46 +1,40 @@
 package org.mbd.aeesgs.controllers;
 
-import org.mbd.aeesgs.model.EvenementCategory;
+import lombok.AllArgsConstructor;
+import org.mbd.aeesgs.dto.EvenementCategoryDto;
 import org.mbd.aeesgs.services.IEvenementCategoryService;
 import org.mbd.aeesgs.utils.EndPointAeesgs;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("evenementCategory")
+@AllArgsConstructor
 public class EvenementCategoryController {
 
     private final IEvenementCategoryService evenementCategoryService;
-
-    public EvenementCategoryController(IEvenementCategoryService evenementCategoryService) {
-        this.evenementCategoryService = evenementCategoryService;
-    }
-
-    @GetMapping(value = EndPointAeesgs.FIND_ALL)
-    public List<EvenementCategory> findAll(){
-         return evenementCategoryService.findAll();
-    }
+    
     @PostMapping(value = EndPointAeesgs.SAVE)
-    public ResponseEntity<?> save(@RequestBody EvenementCategory evenementCategory){
-        EvenementCategory fc = evenementCategoryService.save(evenementCategory);
-        if (fc == null){
-            return ResponseEntity.ok(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(fc, HttpStatus.OK);
+    public EvenementCategoryDto save(@Valid @RequestBody EvenementCategoryDto evenementCategoryDto){
+        return evenementCategoryService.save(evenementCategoryDto);
     }
-    @PutMapping(value = EndPointAeesgs.UPDATE)
-    public EvenementCategory update(@RequestBody EvenementCategory evenementCategory, @PathVariable("id") Long id){
-       return evenementCategoryService.update(evenementCategory, id);
+    @GetMapping(value = EndPointAeesgs.FIND_ALL)
+    public List<EvenementCategoryDto> findAll(){
+        return evenementCategoryService.findAll();
     }
-    @GetMapping(value = EndPointAeesgs.FIND_BY_ID)
-    public EvenementCategory findById(@PathVariable("id") Long id){
-        return evenementCategoryService.findById(id);
+    @PutMapping(EndPointAeesgs.UPDATE)
+    public EvenementCategoryDto update(@Valid @RequestBody EvenementCategoryDto formationCategoryDto, @PathVariable("id") Long id){
+        return evenementCategoryService.update(formationCategoryDto, id);
     }
-    @DeleteMapping(value = EndPointAeesgs.DELETE)
+    @DeleteMapping("deleteById/{id}")
     public void delete(@PathVariable("id") Long id){
         evenementCategoryService.delete(id);
     }
+    @GetMapping("findById/{id}")
+    public EvenementCategoryDto findyId(@PathVariable("id") Long id){
+        return evenementCategoryService.findById(id);
+    }
+    
 }

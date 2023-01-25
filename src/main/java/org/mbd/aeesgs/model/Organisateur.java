@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Organisateur extends BaseEntity {
     @Column(name = "libelle", nullable = false, length = 100, unique = true)
+    @NotNull
     private String libelle;
     @OneToMany(mappedBy = "organisateur", cascade = CascadeType.ALL)
     @JsonIgnore

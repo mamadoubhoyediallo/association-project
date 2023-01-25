@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  mysql-hibernate:
+    image: mysql:8.0
+    container_name: container_mysql_hibernate_aeesgs
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: aeesgsdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+
+
+  phpmyadmin-hibernate:
+    container_name: container_phpmyadmin_hibernate_aeesgs
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8085:80
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      PMA_HOST: mysql-hibernate
+      PMA_USER: aeesgs
+      PMA_PASSWORD: aeesgs
+    depends_on:
+      - mysql-hibernate
+    restart: unless-stopped
+
+  redis:
+    image: redis:5.0.3-alpine
+    container_name: aeesgs-app-redis
+    ports:
+      - 6379:6379
+
+volumes:
+  mysql_data:
+    driver: local
