@@ -1,9 +1,7 @@
 package org.mbd.aeesgs.controllers;
 
 import org.mbd.aeesgs.dto.EvenementDto;
-import org.mbd.aeesgs.dto.FormationDto;
 import org.mbd.aeesgs.model.Evenement;
-import org.mbd.aeesgs.model.Formation;
 import org.mbd.aeesgs.services.IEvenementService;
 import org.mbd.aeesgs.utils.EndPointAeesgs;
 import org.springframework.beans.factory.annotation.Value;

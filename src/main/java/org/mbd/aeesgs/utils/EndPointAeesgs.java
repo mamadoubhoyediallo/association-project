@@ -1,6 +1,7 @@
 package org.mbd.aeesgs.utils;
 
 public abstract class EndPointAeesgs {
+    public static final String SIGN_IN_URL = "/login";
     public static final String SAVE = "/save";
     public static final String UPDATE = "/update/{id}";
     public static final String FIND_ALL = "/findAll";

@@ -44,52 +44,53 @@ public class FormationServiceImpl implements IFormationService {
     }
     @Override
     public Formation save(FormationDto formationDto, List<MultipartFile> files) {
-//        Set<ImageUpload> imageUploads = new HashSet<>();
-//        files.forEach(file -> {
-//            String fileName = file.getOriginalFilename();
-//            String sha256hex = Hashing.sha256()
-//                    .hashString(fileName, StandardCharsets.UTF_8)
-//                    .toString();
-//            System.out.println("FileName Hashing >>> " + sha256hex);
-//            downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                    .path("formation/dept_photos/")
-//                    .path(fileName)
-//                    .toUriString();
-//            try {
-//                ImageUpload image = new ImageUpload(
-//                        downloadURl,
-//                        file.getContentType()
-//                );
-//                imageUploadRepo.save(image);
-//                imageUploads.add(image);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        Organisateur organisateur = organisateurService.findById(formationDto.getId_organisateur());
-//        FormationCategory formationCategory = formationCategoryService.findById(formationDto.getId_formationCategory());
-//        Formation formation = new Formation();
-//        formation.setLibelle(formationDto.getLibelle());
-//        formation.setDescription(formationDto.getDescription());
-//        formation.setLieu(formationDto.getLieu());
-//        formation.setDate(formationDto.getDate());
-//        formation.setPrix(formationDto.getPrix());
-//        formation.setOrganisateur(organisateur);
-//        formation.setFormationCategory(formationCategory);
-//        formation.setPhoto(imageUploads);
-//        Formation formation1 = formationRepo.save(formation);
-//        String uploadDir = "dept_photos/";
-//        files.forEach(file -> {
-//            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//            try {
-//                FileUploadUtil.saveFile(uploadDir, fileName, file);
-//                System.out.println(uploadDir + fileName);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        return formation1;
-        return null;
+        Set<ImageUpload> imageUploads = new HashSet<>();
+        files.forEach(file -> {
+            String fileName = file.getOriginalFilename();
+            String sha256hex = Hashing.sha256()
+                    .hashString(fileName, StandardCharsets.UTF_8)
+                    .toString();
+            System.out.println("FileName Hashing >>> " + sha256hex);
+            downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("formation/dept_photos/")
+                    .path(fileName)
+                    .toUriString();
+            try {
+                ImageUpload image = new ImageUpload(
+                        downloadURl,
+                        file.getContentType()
+                );
+                imageUploadRepo.save(image);
+                imageUploads.add(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        Organisateur organisateur = new Organisateur();
+        organisateur.setId(1L);
+        FormationCategory formationCategory = new FormationCategory();
+        formationCategory.setId(1L);
+        Formation formation = new Formation();
+        formation.setLibelle(formationDto.getLibelle());
+        formation.setDescription(formationDto.getDescription());
+        formation.setLieu(formationDto.getLieu());
+        formation.setDate(formationDto.getDate());
+        formation.setPrix(formationDto.getPrix());
+        formation.setOrganisateur(organisateur);
+        formation.setFormationCategory(formationCategory);
+        formation.setPhoto(imageUploads);
+        Formation formation1 = formationRepo.save(formation);
+        String uploadDir = "dept_photos/";
+        files.forEach(file -> {
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            try {
+                FileUploadUtil.saveFile(uploadDir, fileName, file);
+                System.out.println(uploadDir + fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        return formation1;
     }
 
     @Override
